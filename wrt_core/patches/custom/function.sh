@@ -209,5 +209,4 @@ add_dae
 add_daed
 add_geodata
 set_theme
-add_defaults_settings
 generate_config && cat $config_file
