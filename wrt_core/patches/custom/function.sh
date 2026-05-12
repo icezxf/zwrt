@@ -188,48 +188,6 @@ function set_theme() {
 
 }
   
-  ########################### 修改 DNSMASQ 配置 ###########################
-  dnsmasq_config=package/network/services/dnsmasq/files/
-  # 修改 DNSMASQ 53 端口为 253
-  perl -i -pe 's/option port.*/option port 53/ if /config dnsmasq/../^config/; $_ .= "        option port             253\n" if /option filter_aaaa\t0/ && !/option port/' $dnsmasq_config/dhcp.conf
-  # DNSMASQ DNSSERVER
-  if [[ -f "$dnsmasq_config/dnsmasq.init" ]]; then
-      sed -i 's/DNS_SERVERS=\"\"/DNS_SERVERS=\"223.5.5.5 8.8.4.4\"/g' package/network/services/dnsmasq/files/dnsmasq.init
-      echo "修改dnsmasq默认DNS服务器为223.5.5.5 8.8.4.4"
-  fi
-}
-
-function add_adguardhome() {
-  if [[ ! -d "files/usr/bin" ]]; then
-    mkdir -p files/usr/bin
-  fi
-  # 复制AdGuardHome相关文件
-  echo "添加AdGuardHome相关文件"
-  cp $CUSTOM_PATCH_DIR/adguard_update_dhcp_leases.sh files/usr/bin/adguard_update_dhcp_leases.sh
-}
-
-function add_defaults_settings() {
-  # 添加默认设置脚本
-  if [[ ! -d "files/etc/uci-defaults" ]]; then
-    mkdir -p files/etc/uci-defaults
-  fi
-  cp $CUSTOM_PATCH_DIR/init-settings.sh files/etc/uci-defaults/99-init-settings
-
-  # 配置AdGuardHome相关文件
-  find_replace $CUSTOM_PATCH_DIR/etc/config/AdGuardHome             luci-app-adguardhome/root/etc/config
-  find_replace $CUSTOM_PATCH_DIR/etc/AdGuardHome.yaml               luci-app-adguardhome/root/etc
-   
-  # 配置mosdns相关文件
-  find_replace $CUSTOM_PATCH_DIR/etc/config/mosdns                  luci-app-mosdns/root/etc/config
-  find_replace $CUSTOM_PATCH_DIR/etc/mosdns/config_custom.yaml      luci-app-mosdns/root/etc/mosdns
-  find_replace $CUSTOM_PATCH_DIR/etc/mosdns/dat_exec.yaml           luci-app-mosdns/root/etc/mosdns
-  find_replace $CUSTOM_PATCH_DIR/etc/mosdns/dns.yaml                luci-app-mosdns/root/etc/mosdns
-
-  # 配置smartdns相关文件
-  find_replace $CUSTOM_PATCH_DIR/etc/config/smartdns                smartdns/conf/smartdns.conf 
-
-}
-
 function add_dae() {
   remove_package dae luci-app-dae
   git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
@@ -244,98 +202,6 @@ function add_geodata() {
   echo "CONFIG_PACKAGE_v2ray-geodata=y" >> $config_file
 }
 
-function add_mosdns() {
-  remove_package mosdns luci-app-mosdns
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-      mosdns luci-app-mosdns
-    
-  echo "CONFIG_PACKAGE_luci-app-mosdns=y" >> $config_file
-}
-
-function add_homeproxy() { 
-  remove_package luci-app-homeproxy
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-      homeproxy
-  echo "CONFIG_PACKAGE_luci-app-homeproxy=y" >> $config_file
-}
-
-function add_netspeedtest() {
-  remove_package luci-app-netspeedtest
-  git_sparse_clone small-package https://github.com/caiwx86/openwrt-packages \
-      luci-app-netspeedtest homebox
-  echo "CONFIG_PACKAGE_luci-app-netspeedtest=y" >> $config_file
-}
-
-function add_wechatpush(){
-  remove_package luci-app-wechatpush
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-      luci-app-wechatpush
-  # fix wechatpush build
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-      wrtbwmon
-  echo "CONFIG_PACKAGE_luci-app-wechatpush=y" >> $config_file
-}
-
-function add_taskplan() {
-  remove_package luci-app-taskplan
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-      luci-app-taskplan
-  echo "CONFIG_PACKAGE_luci-app-taskplan=y" >> $config_file
-}
-
-function add_msd_lite() { 
-  remove_package msd_lite luci-app-msd_lite
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-      msd_lite luci-app-msd_lite
-  echo "CONFIG_PACKAGE_luci-app-msd-lite=y" >> $config_file
-
-}
-
-function add_turboacc() {
-  remove_package luci-app-turboacc
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-      luci-app-turboacc 
-}
-
-function add_qbittorrent() {
-  remove_package luci-app-qbittorrent
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-      luci-app-qbittorrent
-  echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> $config_file
-}
-
-function add_transmission() {
-  remove_package luci-app-transmission
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-      luci-app-transmission transmission 
-  echo "CONFIG_PACKAGE_luci-app-transmission=y" >> $config_file
-}
-
-function add_openlist() {
-  remove_package openlist luci-app-openlist
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-       openlist2 luci-app-openlist2
-  echo "CONFIG_PACKAGE_luci-app-openlist2=y" >> $config_file
-}
-
-function add_smartdns() {
-  remove_package smartdns luci-app-smartdns
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-      smartdns luci-app-smartdns 
-}
-
-update_menu() {
-    local qbittorrent_path="$BASE_PATH/package/luci-app-qbittorrent/luci-app-qbittorrent/root/usr/share/luci/menu.d/luci-app-qbittorrent.json"
-    if [ -d "$(dirname "$qbittorrent_path")" ] && [ -f "$qbittorrent_path" ]; then
-        sed -i 's/nas/services/g' "$qbittorrent_path"
-    fi
-
-    local transmission_path="$BASE_PATH/package/luci-app-transmission/root/usr/share/luci/menu.d/luci-app-transmission.json"
-    if [ -d "$(dirname "$transmission_path")" ] && [ -f "$transmission_path" ]; then
-        sed -i 's/nas/services/g' "$transmission_path"
-    fi
-}
-
 # 主要执行程序
 # 解决配置文件未换行问题
 echo "" >> $config_file
@@ -343,22 +209,5 @@ add_dae
 add_daed
 add_geodata
 set_theme
-add_nps
-add_watchdog
-add_mosdns
-add_netdata
-add_adguardhome
-add_netspeedtest
-add_wechatpush
-add_taskplan
-add_msd_lite
-add_homeproxy
-add_openlist
-# add_turboacc
-# add_qbittorrent
-# add_transmission
-add_smartdns
-add_other_package
-update_menu
 add_defaults_settings
 generate_config && cat $config_file
