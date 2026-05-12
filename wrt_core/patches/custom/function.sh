@@ -209,6 +209,12 @@ function add_partexp() {
   echo "CONFIG_PACKAGE_luci-app-partexp=y" >> $config_file
 }
 
+function add_momo() {
+  remove_package momo luci-app-momo
+  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
+      momo luci-app-momo
+  echo "CONFIG_PACKAGE_luci-app-momo=y" >> $config_file
+}
 # 主要执行程序
 # 解决配置文件未换行问题
 echo "" >> $config_file
@@ -217,4 +223,5 @@ add_daed
 add_geodata
 set_theme
 add_partexp
+add_momo
 generate_config && cat $config_file
