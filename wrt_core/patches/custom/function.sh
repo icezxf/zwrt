@@ -4,7 +4,7 @@ config_file=".config"
 CUSTOM_PATCH_DIR="$GITHUB_WORKSPACE/wrt_core/patches/custom"
 BASE_PATH=$1
 
-CUSTOM_OP=https://github.com/caiwx86/small-packages
+CUSTOM_OP=https://github.com/kenzok8/small-packages
 CUSTOM_OP_BRANCH=main
 
 if [[ -d $BASE_PATH ]]; then
