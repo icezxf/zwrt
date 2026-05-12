@@ -202,6 +202,13 @@ function add_geodata() {
   echo "CONFIG_PACKAGE_v2ray-geodata=y" >> $config_file
 }
 
+function add_partexp() {
+  remove_package luci-app-partexp
+  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
+      luci-app-partexp
+  echo "CONFIG_PACKAGE_luci-app-partexp=y" >> $config_file
+}
+
 # 主要执行程序
 # 解决配置文件未换行问题
 echo "" >> $config_file
@@ -209,4 +216,5 @@ add_dae
 add_daed
 add_geodata
 set_theme
+add_partexp
 generate_config && cat $config_file
