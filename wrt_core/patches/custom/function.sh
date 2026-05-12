@@ -187,40 +187,6 @@ function set_theme() {
   fi
 
 }
-
-function add_nps() {
-  remove_package nps npc luci-app-nps luci-app-npc
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-      npc luci-app-npc
-  echo "CONFIG_PACKAGE_npc=y" >> $config_file
-  echo "CONFIG_PACKAGE_luci-app-npc=y" >> $config_file
-}
-
-function add_watchdog() {
-  # 添加额外插件
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-      watchdog luci-app-watchdog 
-  echo "CONFIG_PACKAGE_luci-app-watchdog=y" >> $config_file
-}
-
-function add_netdata() {
-  remove_package netdata luci-app-netdata
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
-      luci-app-netdata netdata-ssl
-  echo "CONFIG_PACKAGE_luci-app-netdata=y" >> $config_file
-}
-
-function add_other_package() {
-  echo "添加其他通插件"
-  # add other package
-  #impitool
-  echo "CONFIG_PACKAGE_ipmitool=y" >> $config_file
-  # jq
-  echo "CONFIG_PACKAGE_jq=y" >> $config_file
-  # gdisk
-  echo "CONFIG_PACKAGE_gdisk=y" >> $config_file
-  # luci-app-mwan3
-  echo "CONFIG_PACKAGE_luci-app-mwan3=y" >> $config_file
   
   ########################### 修改 DNSMASQ 配置 ###########################
   dnsmasq_config=package/network/services/dnsmasq/files/
