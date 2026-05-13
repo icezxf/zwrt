@@ -223,6 +223,6 @@ jobs:
         uses: softprops/action-gh-release@v2.5.0
         with:
           name: ${{ env.BUILD_DATE }}_${{ env.MODEL }}
-          tag_name: ${{ env.BUILD_MONTH }}_${{ env.MODEL }}
+          tag_name: ${{ env.BUILD_DATE }}_${{ env.MODEL }}
           files: ${{ env.MODEL == 'n1_immwrt' && env.PACKAGED_OUTPUTPATH || './firmware' }}/*.*
           body_path: ./release_body.txt
