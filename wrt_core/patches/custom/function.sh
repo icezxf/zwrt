@@ -217,12 +217,27 @@ function add_momo() {
   echo "CONFIG_PACKAGE_luci-app-momo=y" >> $config_file
 }
 
+function add_openlist() {
+  remove_package openlist luci-app-openlist
+  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
+       openlist2 luci-app-openlist2
+  echo "CONFIG_PACKAGE_luci-app-openlist2=y" >> $config_file
+}
+
 function add_other_package() {
   echo "添加其他通插件"
   # add other package
   #impitool
   echo "CONFIG_PACKAGE_luci-app-timecontrol=y" >> $config_file
-  echo "CONFIG_PACKAGE_luci-app-openlist2=y" >> $config_file
+}
+
+function add_defaults_settings() {
+  # 添加默认设置脚本
+  if [[ ! -d "files/etc/uci-defaults" ]]; then
+    mkdir -p files/etc/uci-defaults
+  fi
+  cp $CUSTOM_PATCH_DIR/init-settings.sh files/etc/uci-defaults/99-init-settings
+
 }
 # 主要执行程序
 # 解决配置文件未换行问题
@@ -233,5 +248,7 @@ add_geodata
 set_theme
 add_partexp
 add_momo
+add_openlist
 add_other_package
+add_defaults_settings
 generate_config && cat $config_file
