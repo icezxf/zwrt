@@ -4,7 +4,8 @@ config_file=".config"
 CUSTOM_PATCH_DIR="$GITHUB_WORKSPACE/wrt_core/patches/custom"
 BASE_PATH=$1
 
-CUSTOM_OP=https://github.com/kenzok8/small-package
+CUSTOM_OP=https://github.com/caiwx86/small-packages
+CUSTOM_OPP=https://github.com/kenzok8/jell
 CUSTOM_OP_BRANCH=main
 
 if [[ -d $BASE_PATH ]]; then
@@ -215,6 +216,19 @@ function add_momo() {
       momo luci-app-momo
   echo "CONFIG_PACKAGE_luci-app-momo=y" >> $config_file
 }
+
+function add_other_package() {
+  echo "添加其他通插件"
+  # add other package
+  #impitool
+  echo "CONFIG_PACKAGE_ipmitool=y" >> $config_file
+  # jq
+  echo "CONFIG_PACKAGE_jq=y" >> $config_file
+  # gdisk
+  echo "CONFIG_PACKAGE_gdisk=y" >> $config_file
+  # luci-app-mwan3
+  echo "CONFIG_PACKAGE_luci-app-mwan3=y" >> $config_file
+}
 # 主要执行程序
 # 解决配置文件未换行问题
 echo "" >> $config_file
@@ -224,4 +238,5 @@ add_geodata
 set_theme
 add_partexp
 add_momo
+add_other_package
 generate_config && cat $config_file
