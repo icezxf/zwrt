@@ -217,7 +217,7 @@ jobs:
             WIFI_PWD="未找到 wireless 配置文件"
           fi
           
-          
+         
           echo "WIFI密码: $WIFI_PWD" >> release_body.txt
           echo "LAN地址: $LAN_IP" >> release_body.txt
           #echo "WIFI密码: 12345678" >> release_body.txt
