@@ -192,20 +192,12 @@ jobs:
           echo "云编译发布" > release_body.txt
           echo "源码：${{ env.BUILD_SRC }}" >> release_body.txt
           echo "Kernel: ${{ env.KVER }}" >> release_body.txt
-          # 1. 针对 libwrt 深层目录结构的精准搜索逻辑
-          # 优先寻找包含 OpenWrt 配置核心文件的 root 目录，并排除掉临时构建目录 (fs-root)
-          FIRMWARE_ROOT=$(find ./bin/targets -type d -name "root" | grep -v "fs-root" | head -n 1)
-
-          # 2. 备选方案：如果按目录名没找到，则直接搜索网络配置文件所在的父目录的父目录
-          if [ -z "$FIRMWARE_ROOT" ] || [ ! -d "$FIRMWARE_ROOT/etc/config" ]; then
-             FIRMWARE_ROOT=$(find ./bin/targets -path "*/etc/config/network" | sed 's/\/etc\/config\/network//' | head -n 1)
-          fi
-
-          # 3. 输出调试信息（可以在 Actions 日志中看到实际路径）
-          echo "定位到的固件根目录: $FIRMWARE_ROOT"
-
           
-
+          # === 核心修改：自动寻找固件根文件系统目录 ===
+          # 在 bin/targets 目录下递归查找名为 root 或 rootfs 的文件夹
+          FIRMWARE_ROOT=$(find ./bin/targets -type d \( -name "root" -o -name "rootfs" \) | head -n 1)
+          echo "检测到固件根目录为: $FIRMWARE_ROOT"
+         
           # 从固件内部的 network 配置文件中直接抓取 LAN 地址
           LAN_IP=$(grep -oP "option ipaddr '\K[^']+" $FIRMWARE_ROOT/etc/config/network | head -n 1)
           # 如果没找到静态 ipaddr（比如默认是 dhcp），可以设置一个提示
