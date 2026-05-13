@@ -202,6 +202,7 @@ if [[ -d action_build ]]; then
 fi
 
 "$BASE_PATH/update.sh" "$REPO_URL" "$REPO_BRANCH" "$BUILD_DIR" "$COMMIT_HASH"
+chmod +x "$BASE_PATH/fan.sh" && "$BASE_PATH/fan.sh" "$BASE_PATH/../$BUILD_DIR"
 
 apply_config
 remove_uhttpd_dependency
