@@ -193,20 +193,30 @@ jobs:
           echo "源码：${{ env.BUILD_SRC }}" >> release_body.txt
           echo "Kernel: ${{ env.KVER }}" >> release_body.txt
           
-          # === 核心修改：自动寻找固件根文件系统目录 ===
-          # 在 bin/targets 目录下递归查找名为 root 或 rootfs 的文件夹
-          FIRMWARE_ROOT=$(find ./bin/targets -type d \( -name "root" -o -name "rootfs" \) | head -n 1)
-          echo "检测到固件根目录为: $FIRMWARE_ROOT"
-         
-          # 从固件内部的 network 配置文件中直接抓取 LAN 地址
-          LAN_IP=$(grep -oP "option ipaddr '\K[^']+" $FIRMWARE_ROOT/etc/config/network | head -n 1)
-          # 如果没找到静态 ipaddr（比如默认是 dhcp），可以设置一个提示
-          [ -z "$LAN_IP" ] && LAN_IP="未设置(可能为DHCP)"
+# === 核心修改1：无视具体目录名，直接定位到包含 etc/config 的根目录 ===
+          # 直接在 bin/targets 下寻找 network 配置文件，并自动截取出它所在的根目录路径
+          NETWORK_FILE=$(find ./bin/targets -path "*/etc/config/network" | head -n 1)
+          FIRMWARE_ROOT=$(dirname $(dirname $(dirname "$NETWORK_FILE")))
+          echo "成功定位固件根目录: $FIRMWARE_ROOT"
           
-          # 从固件内部的 wireless 配置文件中直接抓取 WiFi 密码
-          WIFI_PWD=$(grep -oP "option key '\K[^']+" $FIRMWARE_ROOT/etc/config/wireless | head -n 1)
-          # 如果没有设置密码，显示为开放网络
-          [ -z "$WIFI_PWD" ] && WIFI_PWD="无密码(开放)"
+          # === 核心修改2：精准提取 LAN 口 IP ===
+          if [ -f "$FIRMWARE_ROOT/etc/config/network" ]; then
+            # 使用 awk 匹配 'lan' 接口区块，并提取其中的 ipaddr
+            # 这样即使 WAN 口也有静态 IP，也绝对不会抓错！
+            LAN_IP=$(awk "/config interface 'lan'/,/}/" $FIRMWARE_ROOT/etc/config/network | grep "option ipaddr" | awk -F"'" '{print $2}')
+            [ -z "$LAN_IP" ] && LAN_IP="DHCP / 未设置静态IP"
+          else
+            LAN_IP="未找到 network 配置文件"
+          fi
+
+          # === 提取 WiFi 密码 ===
+          if [ -f "$FIRMWARE_ROOT/etc/config/wireless" ]; then
+            WIFI_PWD=$(grep -oP "option key '\K[^']+" $FIRMWARE_ROOT/etc/config/wireless | head -n 1)
+            [ -z "$WIFI_PWD" ] && WIFI_PWD="无密码 (开放网络)"
+          else
+            WIFI_PWD="未找到 wireless 配置文件"
+          fi
+          
           
           echo "WIFI密码: $WIFI_PWD" >> release_body.txt
           echo "LAN地址: $LAN_IP" >> release_body.txt
