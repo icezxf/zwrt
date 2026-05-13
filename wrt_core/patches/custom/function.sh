@@ -221,13 +221,8 @@ function add_other_package() {
   echo "添加其他通插件"
   # add other package
   #impitool
-  echo "CONFIG_PACKAGE_ipmitool=y" >> $config_file
-  # jq
-  echo "CONFIG_PACKAGE_jq=y" >> $config_file
-  # gdisk
-  echo "CONFIG_PACKAGE_gdisk=y" >> $config_file
-  # luci-app-mwan3
-  echo "CONFIG_PACKAGE_luci-app-mwan3=y" >> $config_file
+  echo "CONFIG_PACKAGE_luci-app-timecontrol=y" >> $config_file
+  echo "CONFIG_PACKAGE_luci-app-openlist2=y" >> $config_file
 }
 # 主要执行程序
 # 解决配置文件未换行问题
