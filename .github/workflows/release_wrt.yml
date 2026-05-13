@@ -27,8 +27,7 @@ on:
           - zn_m2_immwrt
           - zn_m2_libwrt
           - x64_immwrt
-  schedule:
-      - cron: '0 5 * * *'
+
 
 env:
   MODEL: ${{ github.event.inputs.model || 'jdcloud_ipq60xx_libwrt' }}
