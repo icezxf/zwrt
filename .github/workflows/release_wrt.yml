@@ -193,7 +193,6 @@ jobs:
           echo "源码：${{ env.BUILD_SRC }}" >> release_body.txt
           echo "Kernel: ${{ env.KVER }}" >> release_body.txt
           
-# === 核心修改1：无视具体目录名，直接定位到包含 etc/config 的根目录 ===
           # 直接在 bin/targets 下寻找 network 配置文件，并自动截取出它所在的根目录路径
           NETWORK_FILE=$(find ./bin/targets -path "*/etc/config/network" | head -n 1)
           FIRMWARE_ROOT=$(dirname $(dirname $(dirname "$NETWORK_FILE")))
