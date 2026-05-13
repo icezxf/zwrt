@@ -35,20 +35,43 @@
 # Check file system during boot
 # uci set fstab.@global[0].check_fs=1
 # uci commit fstab
+#!/bin/sh
 
-chmod +x /usr/bin/adguard_update_dhcp_leases.sh
-# 定义要查找的Cron任务
-CRON_JOB="*/15 * * * * /usr/bin/adguard_update_dhcp_leases.sh"
-# 定义cron文件路径
-CRON_FILE="/etc/crontabs/root"
-# 检查Cron任务是否已存在
-if grep -Fxq "$CRON_JOB" "$CRON_FILE"; then
-    echo "Cron任务已存在，不需要添加。"
-else
-    echo "$CRON_JOB" >> "$CRON_FILE"
-    echo "Cron任务已添加到 $CRON_FILE。"
-fi
-#/etc/init.d/cron start
-#/etc/init.d/cron enable
-# Enable required services
+#!/bin/sh
+
+# ==========================================
+# OpenWrt 首次启动初始化脚本 (uci-defaults)
+# ==========================================
+
+# 1. 完善设置 LAN 口网络参数
+# 强制设为静态IP模式，防止被上级路由DHCP干扰
+uci set network.lan.proto='static'
+# 设置目标管理IP地址
+uci set network.lan.ipaddr='192.168.1.2'
+# 显式指定标准子网掩码，确保万无一失
+uci set network.lan.netmask='255.255.255.0'
+uci commit network
+
+# 2. 智能遍历并分别设置 2.4G 和 5G 无线设备
+for radio in $(uci show wireless | grep '=wifi-device' | cut -d '.' -f 2); do
+    # 获取当前无线设备的频段信息 (band)
+    band=$(uci get wireless.$radio.band 2>/dev/null)
+    
+    # 针对 2.4G 频段的无线设备进行配置
+    if [ "$band" = "2g" ]; then
+        uci set wireless.default_${radio}.ssid='openwrt-2.4g'
+        uci set wireless.default_${radio}.key='gpsgpsgp'
+        uci set wireless.${radio}.disabled='0'
+    fi
+    
+    # 针对 5G 频段的无线设备进行配置
+    if [ "$band" = "5g" ]; then
+        uci set wireless.default_${radio}.ssid='openwrt-5g'
+        uci set wireless.default_${radio}.key='gpsgpsgp'
+        uci set wireless.${radio}.disabled='0'
+    fi
+done
+uci commit wireless
+
+# 3. 退出并返回成功状态码 0
 exit 0
