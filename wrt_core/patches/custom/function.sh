@@ -246,7 +246,7 @@ add_dae
 add_daed
 add_geodata
 set_theme
-add_partexp
+#add_partexp
 add_momo
 add_openlist
 add_other_package
