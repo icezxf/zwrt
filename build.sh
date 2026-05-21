@@ -206,6 +206,9 @@ fi
 apply_config
 remove_uhttpd_dependency
 
+chmod +x $BASE_PATH/patches/custom/function.sh && $BASE_PATH/patches/custom/function.sh "$BASE_PATH/../$BUILD_DIR"
+cat "$BASE_PATH/../$BUILD_DIR/.config"
+
 cd "$BASE_PATH/../$BUILD_DIR"
 make defconfig
 
