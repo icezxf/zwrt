@@ -198,7 +198,7 @@ function add_dae() {
 
 function add_geodata() {
   remove_package v2ray-geodata
-  cp -rv $CUSTOM_PATCH_DIR/package/v2ray-geodata ./package/
+  cp -rv $CUSTOM_PATCH_DIR/v2ray-geodata ./package/
   echo "CONFIG_PACKAGE_v2ray-geodata-updater=y" >> $config_file
   echo "CONFIG_PACKAGE_v2ray-geodata=y" >> $config_file
 }
