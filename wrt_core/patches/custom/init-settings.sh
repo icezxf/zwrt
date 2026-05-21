@@ -47,7 +47,7 @@
 # 强制设为静态IP模式，防止被上级路由DHCP干扰
 uci set network.lan.proto='static'
 # 设置目标管理IP地址
-uci set network.lan.ipaddr='192.168.1.3'
+uci set network.lan.ipaddr='192.168.1.2'
 # 显式指定标准子网掩码，确保万无一失
 uci set network.lan.netmask='255.255.255.0'
 uci commit network
