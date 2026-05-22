@@ -230,6 +230,9 @@ function add_other_package() {
   # add other package
   #impitool
   echo "CONFIG_PACKAGE_luci-app-timecontrol=y" >> $config_file
+  echo "CONFIG_PACKAGE_luci-app-emby=y" >> $config_file
+  echo "CONFIG_PACKAGE_luci-app-sunpanel=y" >> $config_file
+  echo "CONFIG_PACKAGE_luci-app-clouddrive2=y" >> $config_file
 }
 
 function add_defaults_settings() {
