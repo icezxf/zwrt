@@ -261,12 +261,12 @@ echo "" >> $config_file
 add_dae
 #add_daed
 add_geodata
-add_timecontrol
+#add_timecontrol
 set_theme
 #add_partexp
 #add_momo
 add_openlist
-add_ddns
+#add_ddns
 add_other_package
 add_defaults_settings
 generate_config && cat $config_file
