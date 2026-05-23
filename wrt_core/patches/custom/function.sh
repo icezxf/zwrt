@@ -253,7 +253,7 @@ function add_defaults_settings() {
     mkdir -p files/etc/uci-defaults
   fi
   cp $CUSTOM_PATCH_DIR/init-settings.sh files/etc/uci-defaults/99-init-settings
-
+}
 
 # 主要执行程序
 # 解决配置文件未换行问题
