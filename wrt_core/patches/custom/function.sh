@@ -211,6 +211,13 @@ function add_partexp() {
   echo "CONFIG_PACKAGE_luci-app-partexp=y" >> $config_file
 }
 
+function add_timecontrol() {
+  remove_package luci-app-timecontrol
+  git_sparse_clone $CUSTOM_OPP_BRANCH $CUSTOM_OP \
+      luci-app-timecontrol
+  echo "CONFIG_PACKAGE_luci-app-timecontrol=y" >> $config_file
+}
+
 function add_momo() {
   remove_package momo luci-app-momo
   git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
@@ -220,16 +227,21 @@ function add_momo() {
 
 function add_openlist() {
   remove_package openlist luci-app-openlist
-  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
+  git_sparse_clone $CUSTOM_OPP_BRANCH $CUSTOM_OP \
        openlist2 luci-app-openlist2
   echo "CONFIG_PACKAGE_luci-app-openlist2=y" >> $config_file
+}
+
+function add_ddns() {
+  git_sparse_clone $CUSTOM_OPP_BRANCH $CUSTOM_OP \
+       ddns-go luci-app-ddns-go
+  echo "CONFIG_PACKAGE_luci-app-ddns-go=y" >> $config_file
 }
 
 function add_other_package() {
   echo "添加其他通插件"
   # add other package
   #impitool
-  echo "CONFIG_PACKAGE_luci-app-timecontrol=y" >> $config_file
   echo "CONFIG_PACKAGE_luci-app-emby=y" >> $config_file
   echo "CONFIG_PACKAGE_luci-app-sunpanel=y" >> $config_file
   echo "CONFIG_PACKAGE_luci-app-clouddrive2=y" >> $config_file
@@ -242,17 +254,19 @@ function add_defaults_settings() {
   fi
   cp $CUSTOM_PATCH_DIR/init-settings.sh files/etc/uci-defaults/99-init-settings
 
-}
+
 # 主要执行程序
 # 解决配置文件未换行问题
 echo "" >> $config_file
 add_dae
-add_daed
+#add_daed
 add_geodata
+add_timecontrol
 set_theme
 #add_partexp
-add_momo
+#add_momo
 add_openlist
+add_ddns
 add_other_package
 add_defaults_settings
 generate_config && cat $config_file
