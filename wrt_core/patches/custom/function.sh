@@ -227,13 +227,13 @@ function add_momo() {
 
 function add_openlist() {
   remove_package openlist luci-app-openlist
-  git_sparse_clone $CUSTOM_OPP_BRANCH $CUSTOM_OP \
+  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
        openlist2 luci-app-openlist2
   echo "CONFIG_PACKAGE_luci-app-openlist2=y" >> $config_file
 }
 
 function add_ddns() {
-  git_sparse_clone $CUSTOM_OPP_BRANCH $CUSTOM_OP \
+  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
        ddns-go luci-app-ddns-go
   echo "CONFIG_PACKAGE_luci-app-ddns-go=y" >> $config_file
 }
