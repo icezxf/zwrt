@@ -238,6 +238,14 @@ function add_ddns() {
   echo "CONFIG_PACKAGE_luci-app-ddns-go=y" >> $config_file
 }
 
+function add_lucinginx() {
+  git_sparse_clone $CUSTOM_OPP_BRANCH $CUSTOM_OP \
+       luci-app-nginx luci-app-nginx-ha luci-app-nginx-manager
+  echo "CONFIG_PACKAGE_luci-app-nginx=y" >> $config_file
+  echo "CONFIG_PACKAGE_luci-app-nginx-ha=y" >> $config_file
+  echo "CONFIG_PACKAGE_luci-app-nginx-manager=y" >> $config_file
+}
+
 function add_other_package() {
   echo "添加其他通插件"
   # add other package
@@ -266,7 +274,8 @@ set_theme
 #add_partexp
 #add_momo
 add_openlist
-#add_ddns
+add_ddns
+add_lucinginx
 add_other_package
 add_defaults_settings
 generate_config && cat $config_file
