@@ -239,7 +239,7 @@ function add_ddns() {
 }
 
 function add_lucinginx() {
-  git_sparse_clone $CUSTOM_OPP_BRANCH $CUSTOM_OP \
+  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OPP \
        luci-app-nginx luci-app-nginx-ha luci-app-nginx-manager
   echo "CONFIG_PACKAGE_luci-app-nginx=y" >> $config_file
   echo "CONFIG_PACKAGE_luci-app-nginx-ha=y" >> $config_file
