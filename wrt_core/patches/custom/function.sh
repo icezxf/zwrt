@@ -246,6 +246,16 @@ function add_lucinginx() {
   echo "CONFIG_PACKAGE_luci-app-nginx-manager=y" >> $config_file
 }
 
+function add_nginx_manager() {
+  local repo="https://github.com/Vera2016/luci-app-nginx-manager"
+  local branch="main" # 使用你之前定义的分支变量
+  
+  git clone --depth=1 -b "$branch" "$repo"
+  # 假设克隆下来的文件夹名是 luci-app-nginx-manager
+  mv -f luci-app-nginx-manager $BASE_PATH/package/
+  echo "CONFIG_PACKAGE_luci-app-nginx-manager=y" >> $config_file
+}
+
 function add_other_package() {
   echo "添加其他通插件"
   # add other package
