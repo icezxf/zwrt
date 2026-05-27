@@ -262,6 +262,24 @@ function add_nginxmanager() {
   echo "CONFIG_PACKAGE_luci-app-nginx-manager=y" >> $config_file
 }
 
+function add_podman() {
+  local repo="https://github.com/Zerogiven-OpenWRT-Packages/luci-app-podman"
+  local branch="main"
+  
+  # 克隆
+  git clone --depth=1 -b "$branch" "$repo"
+  
+  # 自动获取克隆下来的文件夹名（去掉 URL 后缀）
+  # 这样不管仓库叫什么，都能准确找到文件夹
+  local folder_name=$(basename "$repo")
+  
+  # 移动（使用变量代替死记硬背的名字）
+  mv -f "$folder_name" "$BASE_PATH/package/"
+  
+  # 写入配置
+  echo "CONFIG_PACKAGE_luci-app-podman=y" >> $config_file
+}
+
 function add_other_package() {
   echo "添加其他通插件"
   # add other package
@@ -293,6 +311,7 @@ add_openlist
 #add_ddns
 add_lucinginx
 add_nginxmanager
+add_podman
 add_other_package
 add_defaults_settings
 generate_config && cat $config_file
