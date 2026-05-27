@@ -240,19 +240,25 @@ function add_ddns() {
 
 function add_lucinginx() {
   git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OPP \
-       luci-app-nginx luci-app-nginx-ha luci-app-nginx-manager
+       luci-app-nginx
   echo "CONFIG_PACKAGE_luci-app-nginx=y" >> $config_file
-  echo "CONFIG_PACKAGE_luci-app-nginx-ha=y" >> $config_file
-  echo "CONFIG_PACKAGE_luci-app-nginx-manager=y" >> $config_file
 }
 
-function add_nginx_manager() {
+function add_nginxmanager() {
   local repo="https://github.com/Vera2016/luci-app-nginx-manager"
-  local branch="main" # 使用你之前定义的分支变量
+  local branch="main"
   
+  # 克隆
   git clone --depth=1 -b "$branch" "$repo"
-  # 假设克隆下来的文件夹名是 luci-app-nginx-manager
-  mv -f luci-app-nginx-manager $BASE_PATH/package/
+  
+  # 自动获取克隆下来的文件夹名（去掉 URL 后缀）
+  # 这样不管仓库叫什么，都能准确找到文件夹
+  local folder_name=$(basename "$repo")
+  
+  # 移动（使用变量代替死记硬背的名字）
+  mv -f "$folder_name" "$BASE_PATH/package/"
+  
+  # 写入配置
   echo "CONFIG_PACKAGE_luci-app-nginx-manager=y" >> $config_file
 }
 
@@ -286,6 +292,7 @@ set_theme
 add_openlist
 add_ddns
 add_lucinginx
+add_nginxmanager=y
 add_other_package
 add_defaults_settings
 generate_config && cat $config_file
