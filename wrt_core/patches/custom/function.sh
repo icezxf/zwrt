@@ -292,7 +292,7 @@ set_theme
 add_openlist
 #add_ddns
 add_lucinginx
-add_nginxmanager=y
+add_nginxmanager
 add_other_package
 add_defaults_settings
 generate_config && cat $config_file
