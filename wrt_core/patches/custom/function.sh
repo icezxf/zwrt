@@ -278,6 +278,8 @@ function add_podman() {
   
   # 写入配置
   echo "CONFIG_PACKAGE_luci-app-podman=y" >> $config_file
+  echo "CONFIG_PACKAGE_podman=y" >> $config_file
+
 }
 
 function add_other_package() {
@@ -304,14 +306,14 @@ add_dae
 #add_daed
 add_geodata
 #add_timecontrol
-set_theme
+#set_theme
 #add_partexp
 #add_momo
 add_openlist
 #add_ddns
 add_lucinginx
 add_nginxmanager
-add_podman
+#add_podman
 add_other_package
 add_defaults_settings
 generate_config && cat $config_file
