@@ -288,7 +288,7 @@ function add_other_package() {
   #impitool
   echo "CONFIG_PACKAGE_luci-app-emby=y" >> $config_file
   echo "CONFIG_PACKAGE_luci-app-acme=y" >> $config_file
-  echo "CONFIG_PACKAGE_luci-app-ddns-go=y" >> $config_file
+  echo #"CONFIG_PACKAGE_luci-app-ddns-go=y" >> $config_file
 }
 
 function add_defaults_settings() {
