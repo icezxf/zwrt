@@ -266,6 +266,7 @@ function add_nginxmanager() {
   
   # 写入配置
   echo "CONFIG_PACKAGE_luci-app-nginx-manager=y" >> $config_file
+  echo "CONFIG_PACKAGE_nginx-mod-njs=y" >> $config_file
 }
 
 function add_podman() {
@@ -318,7 +319,7 @@ set_theme
 add_openlist
 #add_ddns
 add_cifs
-add_lucinginx
+#add_lucinginx
 add_nginxmanager
 add_podman
 add_other_package
