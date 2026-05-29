@@ -238,6 +238,12 @@ function add_ddns() {
   echo "CONFIG_PACKAGE_luci-app-ddns-go=y" >> $config_file
 }
 
+function add_cifs() {
+  git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OPP \
+       luci-app-cifs-mount
+  echo "CONFIG_PACKAGE_luci-app-cifs-mount=y" >> $config_file
+}
+
 function add_lucinginx() {
   git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OPP \
        luci-app-nginx
@@ -311,6 +317,7 @@ add_geodata
 #add_momo
 add_openlist
 #add_ddns
+add_cifs
 add_lucinginx
 add_nginxmanager
 add_podman
