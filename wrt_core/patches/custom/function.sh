@@ -310,13 +310,13 @@ function add_defaults_settings() {
 # 主要执行程序
 # 解决配置文件未换行问题
 echo "" >> $config_file
-add_dae
+#add_dae
 #add_daed
 add_geodata
 #add_timecontrol
 #set_theme
 #add_partexp
-#add_momo
+add_momo
 add_openlist
 #add_ddns
 add_cifs
@@ -325,4 +325,4 @@ add_nginxmanager
 #add_podman
 add_other_package
 add_defaults_settings
-generate_config && cat $config_file
+#generate_config && cat $config_file
