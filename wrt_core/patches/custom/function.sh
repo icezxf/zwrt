@@ -313,7 +313,7 @@ add_dae
 #add_daed
 add_geodata
 #add_timecontrol
-set_theme
+#set_theme
 #add_partexp
 #add_momo
 add_openlist
