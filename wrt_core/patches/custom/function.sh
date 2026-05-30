@@ -296,6 +296,7 @@ function add_other_package() {
   echo "CONFIG_PACKAGE_ddns-scripts-cloudflare=y" >> $config_file
   echo "CONFIG_PACKAGE_luci-app-acme=y" >> $config_file
   echo "CONFIG_PACKAGE_luci-app-ddns=y" >> $config_file
+"CONFIG_PACKAGE_block-mount=y" >> $config_file
 }
 
 function add_defaults_settings() {
@@ -321,7 +322,7 @@ add_openlist
 add_cifs
 #add_lucinginx
 add_nginxmanager
-add_podman
+#add_podman
 add_other_package
 add_defaults_settings
 generate_config && cat $config_file
