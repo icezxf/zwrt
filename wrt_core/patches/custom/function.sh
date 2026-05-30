@@ -296,8 +296,7 @@ function add_other_package() {
   echo "CONFIG_PACKAGE_ddns-scripts-cloudflare=y" >> $config_file
   echo "CONFIG_PACKAGE_luci-app-acme=y" >> $config_file
   echo "CONFIG_PACKAGE_luci-app-ddns=y" >> $config_file
-  echo 
-"CONFIG_PACKAGE_block-mount=y" >> $config_file
+  echo "CONFIG_PACKAGE_block-mount=y" >> $config_file
 }
 
 function add_defaults_settings() {
