@@ -293,9 +293,9 @@ function add_other_package() {
   echo "添加其他通插件"
   # add other package
   #impitool
-  echo "CONFIG_PACKAGE_ddns-scripts-cloudflare=y" >> $config_file
-  echo "CONFIG_PACKAGE_luci-app-acme=y" >> $config_file
-  echo "CONFIG_PACKAGE_luci-app-ddns=y" >> $config_file
+  #echo "CONFIG_PACKAGE_ddns-scripts-cloudflare=y" >> $config_file
+  #echo "CONFIG_PACKAGE_luci-app-acme=y" >> $config_file
+  #echo "CONFIG_PACKAGE_luci-app-ddns=y" >> $config_file
   echo "CONFIG_PACKAGE_block-mount=y" >> $config_file
 }
 
@@ -321,7 +321,7 @@ add_openlist
 #add_ddns
 add_cifs
 #add_lucinginx
-add_nginxmanager
+#add_nginxmanager
 #add_podman
 add_other_package
 add_defaults_settings
