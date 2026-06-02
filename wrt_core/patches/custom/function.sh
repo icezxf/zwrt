@@ -251,7 +251,7 @@ function add_lucinginx() {
 }
 
 function add_nginxmanager() {
-  local repo="https://github.com/Vera2016/luci-app-nginx-manager"
+  local repo="https://github.com/hello-yunshu/luci-app-nginx-manager"
   local branch="main"
   
   # 克隆
@@ -321,7 +321,7 @@ add_openlist
 #add_ddns
 add_cifs
 #add_lucinginx
-#add_nginxmanager
+add_nginxmanager
 #add_podman
 add_other_package
 add_defaults_settings
