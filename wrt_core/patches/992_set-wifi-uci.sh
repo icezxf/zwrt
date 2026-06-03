@@ -46,7 +46,7 @@ jdc_ax6600_wifi_cfg() {
 }
 
 redmi_ax5_wifi_cfg() {
-	configure_wifi 0 149 HE80 20 'Redmi_AX5_5G' '12345678'
+	configure_wifi 0 149 HE80 20 'sh雅典娜_5G' 'gpsgpsgp'
 	configure_wifi 1 1 HE20 20 'Redmi_AX5' '12345678'
 }
 
