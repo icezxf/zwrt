@@ -223,6 +223,8 @@ function add_momo() {
   git_sparse_clone $CUSTOM_OP_BRANCH $CUSTOM_OP \
       momo luci-app-momo
   echo "CONFIG_PACKAGE_luci-app-momo=y" >> $config_file
+  rm -f files/usr/bin/sing-box
+
 }
 
 function add_openlist() {
