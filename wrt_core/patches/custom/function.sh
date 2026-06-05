@@ -189,6 +189,12 @@ function set_theme() {
   fi
 
 }
+
+function add_sing-box() {
+  remove_package sing-box
+  git_sparse_clone "main" "https://github.com/shiyu1314/openwrt-packages" "sing-box"
+  echo "CONFIG_PACKAGE_sing-box=y" >> $config_file
+}
   
 function add_dae() {
   remove_package dae luci-app-dae
@@ -318,6 +324,7 @@ add_geodata
 #add_timecontrol
 #set_theme
 #add_partexp
+add_sing-box
 add_momo
 add_openlist
 #add_ddns
