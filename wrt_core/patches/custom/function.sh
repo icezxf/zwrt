@@ -192,7 +192,7 @@ function set_theme() {
 
 function add_sing-box() {
   remove_package sing-box
-  git_sparse_clone "main" "https://github.com/shiyu1314/openwrt-packages" "sing-box"
+  git_sparse_clone "main" "https://github.com/icezxf/openwrt-packages" "sing-box"
   echo "CONFIG_PACKAGE_sing-box=y" >> $config_file
 }
   
