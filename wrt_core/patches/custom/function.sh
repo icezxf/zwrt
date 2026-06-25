@@ -324,14 +324,14 @@ add_geodata
 #add_timecontrol
 #set_theme
 #add_partexp
-add_sing-box
-add_momo
-add_openlist
+#add_sing-box
+#add_momo
+#add_openlist
 #add_ddns
-add_cifs
+#add_cifs
 #add_lucinginx
 #add_nginxmanager
 #add_podman
-add_other_package
+#add_other_package
 #add_defaults_settings
 #generate_config && cat $config_file
