@@ -332,6 +332,6 @@ add_cifs
 #add_lucinginx
 #add_nginxmanager
 #add_podman
-add_other_package
+#add_other_package
 #add_defaults_settings
 #generate_config && cat $config_file
